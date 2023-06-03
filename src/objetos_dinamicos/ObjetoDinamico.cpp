@@ -144,10 +144,6 @@ void Enemy::update(double dt)
     if(!estado_actual) //nulo
         return;
 
-    //posicion_camara.x+=1;
-    //posicion_mundo.x+=1;
-    //printf("camra : %d %d\n",posicion_camara.x,posicion_camara.y);
-    //printf("mundo : %d %d\n",posicion_mundo.x,posicion_mundo.y);
     estado_actual->update(*this,dt);
 
 

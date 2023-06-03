@@ -26,7 +26,7 @@ void Objeto::render(SDL_Renderer* r)
 
 void Objeto::set_posicion_camara(Coordenadas p)
 {
-    posicion_mundo =p;
+    posicion_camara =p;
     if(avatar)
     {
         avatar->set_position(p.x,p.y);

@@ -100,12 +100,12 @@ void EstadoCamaraTransicion::on_update(Camara &cam)
     ant_check.x = check.x-ant_check.x;
     ant_check.y = check.y-ant_check.y;
 
-    Coordenadas objpos = cam.get_obj_lock()->get_posicion_mundo();
+    Coordenadas objpos = cam.get_obj_lock()->get_posicion_camara();
 
     distancia = std::sqrt(std::pow(centro.x-objpos.x,2)+std::pow(centro.y-objpos.y,2));
     //std::cout<<"Distancia > "<<distancia<<"\n";
 
-    cam.set_posicion_mundo(ant_check);
+    cam.set_posicion_mundo(check);
     frames_actual++;
 
 

@@ -31,43 +31,25 @@ void Spawner::spawn(std::vector<Enemy*> *lista)
 {
     
     //random
-    int sx, sy;
     srand((unsigned) time(NULL));
-    int posX = rand()%20;
-    int posY = rand()%20;
-    printf("\nPosicion X: %d", x);
-    printf("Posicion Y: %d\n", y);
-    if(posX<=10)
+    int sx, sy;
+    
+    do
     {
-        sx = ((x)+rand()%2 * 72);
-        //printf("\nCoordenadas SX positiva: %d", sx);
-    }
-    else
-    {
-        sx = ((x)-rand()%2 * 72);
-        //printf("\nCoordenadas SX Negativa: %d", sx);
-    }
-    if(posY<=10)
-    {
-        sy = ((y)+rand()%2 * 72);
-        //printf("\nCoordenadas SY positiva: %d", sy);
-    }
-    else
-    {
-        sy = ((y)-rand()%2 * 72);
-        //printf("\nCoordenadas SY Negativa: %d", sy);  
-    }
+        int posX = rand()%50;
+        int posY = rand()%50;
+        sx = x + (posX*72);
+        sy = y + (posY*72);
+    } while (Atlas::get().indiceCuadro(sx/72 , sy/72) != 18);
+    
+    printf("\nPosicion matris X: [%d]", sx/72);
+    printf("\nPosicion matris Y: [%d]\n", sy/72);
 
-    if(Atlas::get().indiceCuadro(sx/72 , sy/72) == 18){
-
-        Enemy * nuevo = new Enemy(
-        sprite_path,v,sx,sy,w,h,sw,sh,colordebug);
-        pipeline->cargar_texturas(nuevo->get_sprite());
-        lista->push_back(nuevo);
-        objetos_activos++;
-
-    }
-    // nuevo->input_handle(KeyOyente::get(),MouseOyente::get());
+    Enemy * nuevo = new Enemy(
+    sprite_path,v,sx,sy,w,h,sw,sh,colordebug);
+    pipeline->cargar_texturas(nuevo->get_sprite());
+    lista->push_back(nuevo);
+    objetos_activos++;
 
 };
 
@@ -128,7 +110,7 @@ bool Spawner::actualizar_posicion(Jugador &j)
     {
         return false;
     }
-    x = j.get_posicion_mundo().x;
-    y = j.get_posicion_mundo().y;
+    //x = j.get_posicion_mundo().x;
+    //y = j.get_posicion_mundo().y;
     return true;
 };

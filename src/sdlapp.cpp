@@ -93,8 +93,9 @@ bool SDLApp::on_init()
     printf("Se creo el player\n");
     plataformas = Atlas::get().get_objetos_fisicos();
 
+    
     spawnEnemigos = new Spawner("assets/sprites/enemigos/player2.png"
-    ,100,144,144,48,48,100,100,{255,0,255,255},*get().ensamble);
+    ,100,0,0,48,48,100,100,{255,0,255,255},*get().ensamble);
     spawnEnemigos->set_velocidad(6);
 
     get().camara_principal = new Camara(0,0,get().WIDTH,get().HEIGHT,*get().render);
@@ -110,9 +111,10 @@ bool SDLApp::on_init()
     
     Enemy * m = new Enemy("assets/sprites/enemigos/player2.png",
                 //      hp , x , y, sW,sH , vW,vH ,color
-                        100,200,200,48,48,100,100,{255,0,255,255});
+                        100,720,720,48,48,100,100,{255,0,255,255});
     get().ensamble->cargar_texturas(m->get_sprite());
     enemigos.push_back(m);
+    
     
     
     printf("\nSe crearon los objetos exitosamente\n");
@@ -164,8 +166,10 @@ void SDLApp::on_fisicaupdate(double dt)
         {  
             exit(EXIT_FAILURE);
         }
-        DEBUGCOOR(player->get_posicion_mundo())
-        DEBUGCOOR(player->get_posicion_camara())
+        //printf("\nPosicion mundo: ");
+        //DEBUGCOOR(player->get_posicion_mundo())
+        //printf("\nPosicion camara: ");
+        //DEBUGCOOR(player->get_posicion_camara())
         spawnEnemigos->update(&enemigos);
     }
     
@@ -175,23 +179,31 @@ void SDLApp::on_fisicaupdate(double dt)
         
     }
     
-    if(KeyOyente::get().estaPresionado(SDL_SCANCODE_A) || KeyOyente::get().estaPresionado(SDL_SCANCODE_D))
+    if(KeyOyente::get().estaPresionado(SDL_SCANCODE_A) || KeyOyente::get().estaPresionado(SDL_SCANCODE_D) ||
+     KeyOyente::get().estaPresionado(SDL_SCANCODE_W) || KeyOyente::get().estaPresionado(SDL_SCANCODE_S))
     {
-       
+       int i=0;
         for(auto &p:enemigos)
         {
+            i++;
             p->input_handle(KeyOyente::get(),MouseOyente::get());
             p->update(dt);
+            
+            printf("Enemigo [%d]",i);
+            printf("\nPosicion Enemigo: ");
+            DEBUGCOOR(p->get_posicion_mundo())
+            printf("Posicion Camara: ");
+            DEBUGCOOR(p->get_posicion_camara())
+            printf("\n");
         }
     }
-    //else
+
+    for(auto &p:enemigos)
     {
-        for(auto &p:enemigos)
-        {
-            p->update(dt);
-            p->cambio = false;
-        }
+        p->update(dt);
+        p->cambio = false;
     }
+
     
     
     

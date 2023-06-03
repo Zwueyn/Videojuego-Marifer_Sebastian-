@@ -23,7 +23,7 @@ FSMEnemy* EstadoEnemyIDLE_D::input_handle(KeyOyente& input, MouseOyente& mouse)
 {
     srand(time(NULL));
     int random = rand() % 5;
-    printf("Random: %d\n",random);
+    //("Random: %d\n",random);
     if(random == 0)
     {
         return NULL;
@@ -57,7 +57,7 @@ void EstadoEnemyIDLE_D::salir(Enemy& enemy)
 };
 void EstadoEnemyIDLE_D::update(Enemy& enemy,double dt)
 {
-    //printf("IDLE Derecha de enemy\n");
+    ////("IDLE Derecha de enemy\n");
     enemy.get_sprite()->play_frame(1,frames_actual_ani%frames_maxim_ani);
     if(frames_dt >= 5)
     {
@@ -84,7 +84,7 @@ FSMEnemy* EstadoEnemyIDLE_I::input_handle(KeyOyente& input, MouseOyente& mouse)
 {
     srand(time(NULL));
     int random = rand() % 5;
-    printf("Random: %d\n",random);
+    //("Random: %d\n",random);
     if(random == 0)
     {
         return NULL;
@@ -117,7 +117,7 @@ void EstadoEnemyIDLE_I::salir(Enemy& enemy)
 };
 void EstadoEnemyIDLE_I::update(Enemy& enemy,double dt)
 {
-    //printf("IDLE Izquierda de enemy\n");
+    ////("IDLE Izquierda de enemy\n");
     enemy.get_sprite()->play_frame(11, frames_actual_ani % frames_maxim_ani);
     if(frames_dt >= 5)
     {
@@ -145,7 +145,7 @@ FSMEnemy* EstadoEnemyIDLE_A::input_handle(KeyOyente& input, MouseOyente& mouse)
 {
     srand(time(NULL));
     int random = rand() % 5;
-    printf("Random: %d\n",random);
+    //("Random: %d\n",random);
     if(random == 0)
     {
         return NULL;
@@ -179,7 +179,7 @@ void EstadoEnemyIDLE_A::salir(Enemy& enemy)
 };
 void EstadoEnemyIDLE_A::update(Enemy& enemy,double dt)
 {
-    //printf("IDLE Arriba de enemy\n");
+    ////("IDLE Arriba de enemy\n");
     enemy.get_sprite()->play_frame(2,frames_actual_ani%frames_maxim_ani);
     if(frames_dt >= 5)
     {
@@ -208,7 +208,7 @@ FSMEnemy* EstadoEnemyIDLE_B::input_handle(KeyOyente& input, MouseOyente& mouse)
 {
     srand(time(NULL));
     int random = rand() % 5;
-    printf("Random: %d\n",random);
+    //("Random: %d\n",random);
     if(random == 0)
     {
         return NULL;
@@ -242,7 +242,7 @@ void EstadoEnemyIDLE_B::salir(Enemy& enemy)
 };
 void EstadoEnemyIDLE_B::update(Enemy& enemy,double dt)
 {
-    //printf("IDLE Abajo de enemy\n");
+    ////("IDLE Abajo de enemy\n");
     enemy.get_sprite()->play_frame(0,frames_actual_ani%frames_maxim_ani);
     if(frames_dt >= 5)
     {
@@ -348,7 +348,7 @@ void EstadoEnemyMOVERIzquierda::entrar(Enemy& enemy)
 void EstadoEnemyMOVERIzquierda::salir(Enemy& enemy){};
 void EstadoEnemyMOVERIzquierda::update(Enemy& enemy,double dt)
 {
-    //printf("Movimiento Izquierda de enemy\n");
+    ////("Movimiento Izquierda de enemy\n");
     frames_actual_ani++;
     if(Atlas::get().indiceCuadro(enemy.get_columna() -1, enemy.get_fila()) != 18) return;
 
@@ -401,7 +401,7 @@ void EstadoEnemyMOVERArriba::entrar(Enemy& enemy)
 void EstadoEnemyMOVERArriba::salir(Enemy& enemy){};
 void EstadoEnemyMOVERArriba::update(Enemy& enemy,double dt)
 {
-    //printf("Movimiento Arriba de enemy\n");
+    ////("Movimiento Arriba de enemy\n");
     frames_actual_ani++;
 
     if(Atlas::get().indiceCuadro(enemy.get_columna(), enemy.get_fila() -1) != 18) return;
@@ -458,7 +458,7 @@ void EstadoEnemyMOVERAbajo::entrar(Enemy& enemy)
 void EstadoEnemyMOVERAbajo::salir(Enemy& enemy){};
 void EstadoEnemyMOVERAbajo::update(Enemy& enemy,double dt)
 {
-    //printf("Movimiento Abajo de enemy\n");
+    ////("Movimiento Abajo de enemy\n");
     frames_actual_ani++;
     
 
