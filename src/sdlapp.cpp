@@ -189,19 +189,19 @@ void SDLApp::on_fisicaupdate(double dt)
             p->input_handle(KeyOyente::get(),MouseOyente::get());
             p->update(dt);
             
-            printf("Enemigo [%d]",i);
-            printf("\nPosicion Enemigo: ");
-            DEBUGCOOR(p->get_posicion_mundo())
-            printf("Posicion Camara: ");
-            DEBUGCOOR(p->get_posicion_camara())
-            printf("\n");
+            //printf("Enemigo [%d]",i);
+            //printf("\nPosicion Enemigo: ");
+            //DEBUGCOOR(p->get_posicion_mundo())
+            //printf("Posicion Camara: ");
+            //DEBUGCOOR(p->get_posicion_camara())
+            //printf("\n");
         }
     }
 
     for(auto &p:enemigos)
     {
         p->update(dt);
-        p->cambio = false;
+        // p->cambio = false;
     }
 
     

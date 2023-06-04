@@ -53,6 +53,7 @@ void EstadoEnemyIDLE_D::entrar(Enemy& enemy)
 };
 void EstadoEnemyIDLE_D::salir(Enemy& enemy)
 {
+        enemy.cambio = false;    
 
 };
 void EstadoEnemyIDLE_D::update(Enemy& enemy,double dt)
@@ -114,6 +115,8 @@ void EstadoEnemyIDLE_I::entrar(Enemy& enemy)
 };
 void EstadoEnemyIDLE_I::salir(Enemy& enemy)
 {
+        enemy.cambio = false;    
+
 };
 void EstadoEnemyIDLE_I::update(Enemy& enemy,double dt)
 {
@@ -175,7 +178,7 @@ void EstadoEnemyIDLE_A::entrar(Enemy& enemy)
 };
 void EstadoEnemyIDLE_A::salir(Enemy& enemy)
 {
-
+    enemy.cambio = false;
 };
 void EstadoEnemyIDLE_A::update(Enemy& enemy,double dt)
 {
@@ -238,7 +241,7 @@ void EstadoEnemyIDLE_B::entrar(Enemy& enemy)
 };
 void EstadoEnemyIDLE_B::salir(Enemy& enemy)
 {
-
+    enemy.cambio = false;    
 };
 void EstadoEnemyIDLE_B::update(Enemy& enemy,double dt)
 {
@@ -282,15 +285,18 @@ void EstadoEnemyMOVERDerecha::entrar(Enemy& enemy)
     pos_inicial = enemy.get_posicion_mundo();
     pos_final = {pos_inicial.x + 72, pos_inicial.y};
 
-    //DEBUGCOOR(enemy.get_posicion_mundo())
+    DEBUGCOOR(enemy.get_posicion_mundo())
     distancia = (pos_final.x-pos_inicial.x)/frames_maxim_ani;
 
 };
 
-void EstadoEnemyMOVERDerecha::salir(Enemy& enemy){};
+void EstadoEnemyMOVERDerecha::salir(Enemy& enemy){  
+        enemy.cambio = false;      
+};
 
 void EstadoEnemyMOVERDerecha::update(Enemy& enemy,double dt)
 {
+
     frames_actual_ani++;
     if(Atlas::get().indiceCuadro(enemy.get_columna() + 1, enemy.get_fila()) != 18) return;
 
@@ -300,7 +306,8 @@ void EstadoEnemyMOVERDerecha::update(Enemy& enemy,double dt)
     {
         //DEBUGPRINT(distancia)
         enemy.MoverDer(distancia);
-        //DEBUGCOOR(enemy.get_posicion_camara())
+        printf("Movimiento Derecha\n");
+        DEBUGCOOR(enemy.get_posicion_mundo())
         frames_dt++;
     }
     if(frames_actual_ani > frames_maxim_ani)
@@ -309,8 +316,6 @@ void EstadoEnemyMOVERDerecha::update(Enemy& enemy,double dt)
     }
     if(!enemy.cambio)
         enemy.set_estado(new EstadoEnemyIDLE_D());
-
-    
 };
 
 /*
@@ -341,11 +346,15 @@ void EstadoEnemyMOVERIzquierda::entrar(Enemy& enemy)
     
     pos_inicial = enemy.get_posicion_mundo();
     pos_final = {pos_inicial.x - 72, pos_inicial.y};
+    printf("Movimiento izq\n");
+    DEBUGCOOR(enemy.get_posicion_mundo())
 
     distancia = (pos_final.x-pos_inicial.x)/frames_maxim_ani;
 
 };
-void EstadoEnemyMOVERIzquierda::salir(Enemy& enemy){};
+void EstadoEnemyMOVERIzquierda::salir(Enemy& enemy){
+        enemy.cambio = false;  
+};
 void EstadoEnemyMOVERIzquierda::update(Enemy& enemy,double dt)
 {
     ////("Movimiento Izquierda de enemy\n");
@@ -355,6 +364,8 @@ void EstadoEnemyMOVERIzquierda::update(Enemy& enemy,double dt)
     enemy.get_sprite()->play_frame(10,frames_actual_ani%5);
     if(frames_dt < frames_maxim_ani)
     {
+        printf("Movimiento izq\n");
+        DEBUGCOOR(enemy.get_posicion_mundo())
         enemy.set_posicion_mundo({enemy.get_posicion_mundo().x + distancia ,enemy.get_posicion_mundo().y});
         frames_dt++;
     }
@@ -395,10 +406,14 @@ void EstadoEnemyMOVERArriba::entrar(Enemy& enemy)
     enemy.cambio = true;
     pos_inicial = enemy.get_posicion_mundo();
     pos_final = {pos_inicial.x, pos_inicial.y-72};
+    printf("Movimiento arriba\n");
+        DEBUGCOOR(enemy.get_posicion_mundo())
 
     distancia = (pos_final.y-pos_inicial.y)/frames_maxim_ani;
 };
-void EstadoEnemyMOVERArriba::salir(Enemy& enemy){};
+void EstadoEnemyMOVERArriba::salir(Enemy& enemy){
+        enemy.cambio = false;
+};
 void EstadoEnemyMOVERArriba::update(Enemy& enemy,double dt)
 {
     ////("Movimiento Arriba de enemy\n");
@@ -409,6 +424,8 @@ void EstadoEnemyMOVERArriba::update(Enemy& enemy,double dt)
     enemy.get_sprite()->play_frame(5,frames_actual_ani%5);
     if(frames_dt < frames_maxim_ani)
     {
+        printf("Movimiento arriba\n");
+        DEBUGCOOR(enemy.get_posicion_mundo())
         enemy.set_posicion_mundo({enemy.get_posicion_mundo().x,enemy.get_posicion_mundo().y + distancia});
         frames_dt++;
     }
@@ -452,10 +469,14 @@ void EstadoEnemyMOVERAbajo::entrar(Enemy& enemy)
     enemy.cambio = true;
     pos_inicial = enemy.get_posicion_mundo();
     pos_final = {pos_inicial.x, pos_inicial.y + 72};
+    printf("Movimiento abajo\n");
+        DEBUGCOOR(enemy.get_posicion_mundo())
 
     distancia = (pos_final.y-pos_inicial.y)/frames_maxim_ani; 
 };
-void EstadoEnemyMOVERAbajo::salir(Enemy& enemy){};
+void EstadoEnemyMOVERAbajo::salir(Enemy& enemy){
+        enemy.cambio = false;
+};
 void EstadoEnemyMOVERAbajo::update(Enemy& enemy,double dt)
 {
     ////("Movimiento Abajo de enemy\n");
@@ -467,6 +488,8 @@ void EstadoEnemyMOVERAbajo::update(Enemy& enemy,double dt)
     enemy.get_sprite()->play_frame(3,frames_actual_ani%5);
     if(frames_dt < frames_maxim_ani)
     {
+        printf("Movimiento Derecha\n");
+        DEBUGCOOR(enemy.get_posicion_mundo())
         enemy.set_posicion_mundo({enemy.get_posicion_mundo().x,enemy.get_posicion_mundo().y + distancia});
         frames_dt++;
     }
