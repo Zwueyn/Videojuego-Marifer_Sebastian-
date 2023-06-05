@@ -11,7 +11,7 @@ class FSMEnemy
     
     public:
         virtual ~FSMEnemy(){};
-        virtual FSMEnemy* input_handle(KeyOyente& input, MouseOyente& mouse)=0;
+        virtual FSMEnemy* input_handle(KeyOyente& input)=0;
         virtual void entrar(Enemy& slime)=0;
         virtual void salir(Enemy& slime)=0;
         virtual void update(Enemy& slime,double dt)=0;
@@ -23,7 +23,7 @@ class EstadoEnemyMOVERDerecha : public FSMEnemy
     public:
         EstadoEnemyMOVERDerecha();
         virtual ~EstadoEnemyMOVERDerecha(){};
-        FSMEnemy* input_handle(KeyOyente& input, MouseOyente& mouse);
+        FSMEnemy* input_handle(KeyOyente& input);
         void entrar(Enemy& enemy);
         void salir(Enemy& enemy);
         void update(Enemy& enemy,double dt);
@@ -44,7 +44,7 @@ class EstadoEnemyMOVERIzquierda : public FSMEnemy
     public:
         EstadoEnemyMOVERIzquierda();
         virtual ~EstadoEnemyMOVERIzquierda(){};
-        FSMEnemy* input_handle(KeyOyente& input, MouseOyente& mouse);
+        FSMEnemy* input_handle(KeyOyente& input);
         void entrar(Enemy& enemy);
         void salir(Enemy& enemy);
         void update(Enemy& enemy,double dt);
@@ -64,7 +64,7 @@ class EstadoEnemyMOVERArriba : public FSMEnemy
     public:
         EstadoEnemyMOVERArriba();
         virtual ~EstadoEnemyMOVERArriba(){};
-        FSMEnemy* input_handle(KeyOyente& input, MouseOyente& mouse);
+        FSMEnemy* input_handle(KeyOyente& input);
         void entrar(Enemy& enemy);
         void salir(Enemy& enemy);
         void update(Enemy& enemy,double dt);
@@ -84,7 +84,7 @@ class EstadoEnemyMOVERAbajo : public FSMEnemy
     public:
         EstadoEnemyMOVERAbajo();
         virtual ~EstadoEnemyMOVERAbajo(){};
-        FSMEnemy* input_handle(KeyOyente& input, MouseOyente& mouse);
+        FSMEnemy* input_handle(KeyOyente& input);
         void entrar(Enemy& enemy);
         void salir(Enemy& enemy);
         void update(Enemy& enemy,double dt);
@@ -104,7 +104,7 @@ class EstadoEnemyIDLE_D : public FSMEnemy
     public:
         EstadoEnemyIDLE_D();
         virtual ~EstadoEnemyIDLE_D(){};
-        FSMEnemy* input_handle(KeyOyente& input, MouseOyente& mouse);
+        FSMEnemy* input_handle(KeyOyente& input);
         void entrar(Enemy& enemy);
         void salir(Enemy& enemy);
         void update(Enemy& enemy, double dt);
@@ -120,7 +120,7 @@ class EstadoEnemyIDLE_I : public FSMEnemy
     public:
         EstadoEnemyIDLE_I();
         virtual ~EstadoEnemyIDLE_I(){};
-        FSMEnemy* input_handle(KeyOyente& input, MouseOyente& mouse);
+        FSMEnemy* input_handle(KeyOyente& input);
         void entrar(Enemy& enemy);
         void salir(Enemy& enemy);
         void update(Enemy& enemy,double dt);
@@ -136,7 +136,7 @@ class EstadoEnemyIDLE_A : public FSMEnemy
     public:
         EstadoEnemyIDLE_A();
         virtual ~EstadoEnemyIDLE_A(){};
-        FSMEnemy* input_handle(KeyOyente& input, MouseOyente& mouse);
+        FSMEnemy* input_handle(KeyOyente& input);
         void entrar(Enemy& enemy);
         void salir(Enemy& enemy);
         void update(Enemy& enemy,double dt);
@@ -153,7 +153,7 @@ class EstadoEnemyIDLE_B : public FSMEnemy
     public:
         EstadoEnemyIDLE_B();
         virtual ~EstadoEnemyIDLE_B(){};
-        FSMEnemy* input_handle(KeyOyente& input, MouseOyente& mouse);
+        FSMEnemy* input_handle(KeyOyente& input);
         void entrar(Enemy& enemy);
         void salir(Enemy& enemy);
         void update(Enemy& enemy,double dt);

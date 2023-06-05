@@ -9,6 +9,7 @@
 #include "motor/imagen/atlas.hpp"
 #include "motor/camaras/ManejadorCamaras.hpp"
 #include "utilidad/Spawner.hpp"
+#include "utilidad/InteraccionEntidades.hpp"
 
 
 class SDLApp
@@ -51,12 +52,16 @@ class SDLApp
         //08 tiles
         Atlas *mapa;
 
+        InteraccionEntidades *interaccion;
+
         Spawner *spawnEnemigos;
 
         std::vector<Enemy*> enemigos;
 
         //Turnos
         int turn = 0;
+
+        bool combate = false;
     
     public:
         SDL_Color bg_color;

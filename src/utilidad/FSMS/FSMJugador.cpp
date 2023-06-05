@@ -239,23 +239,31 @@ void EstadoJugadorMOVERDerecha::entrar(Jugador& player)
 
 };
 
-void EstadoJugadorMOVERDerecha::salir(Jugador& player){};
+void EstadoJugadorMOVERDerecha::salir(Jugador& player)
+{
+    if(player.get_posicion_mundo().x % 72 != 0)
+    {
+        player.set_posicion_mundo({player.get_posicion_mundo().x + ((player.get_posicion_mundo().x % 72)), player.get_posicion_mundo().y});
+    }
+};
 
 void EstadoJugadorMOVERDerecha::update(Jugador& player,double dt)
 {
     frames_actual_ani++;
-    if(Atlas::get().indiceCuadro(player.get_columna() + 1, player.get_fila()) != 18) return;
+
+
+    if(Atlas::get().indiceCuadro(player.get_pos_matriz(pos_inicial.x) +1, player.get_pos_matriz(pos_inicial.y)) != 18) return;
+
 
     player.get_sprite()->play_frame(4,frames_actual_ani%5);
-    if(frames_dt< frames_maxim_ani)
+    if(frames_dt < frames_maxim_ani)
     {
         player.set_posicion_mundo({player.get_posicion_mundo().x + distancia ,player.get_posicion_mundo().y});
         frames_dt++;
     }
-    if(frames_actual_ani > frames_maxim_ani)
-    {
-        player.set_columna(player.get_columna() + 1);
-    }
+
+    if(frames_actual_ani > frames_maxim_ani) return;
+
 
     
 };
@@ -291,23 +299,32 @@ void EstadoJugadorMOVERIzquierda::entrar(Jugador& player)
     distancia = (pos_final.x-pos_inicial.x)/frames_maxim_ani;
 
 };
-void EstadoJugadorMOVERIzquierda::salir(Jugador& player){};
+void EstadoJugadorMOVERIzquierda::salir(Jugador& player)
+{
+    if(player.get_posicion_mundo().x % 72 != 0)
+    {
+        int aux = player.get_posicion_mundo().x / 72;
+        player.set_posicion_mundo({72*aux, player.get_posicion_mundo().y});
+    }
+};
 void EstadoJugadorMOVERIzquierda::update(Jugador& player,double dt)
 {
     frames_actual_ani++;
-    if(Atlas::get().indiceCuadro(player.get_columna() -1, player.get_fila()) != 18) return;
+
+
+    if(Atlas::get().indiceCuadro(player.get_pos_matriz(pos_inicial.x) -1, player.get_pos_matriz(pos_inicial.y)) != 18) return;
 
     player.get_sprite()->play_frame(10,frames_actual_ani%5);
+
     if(frames_dt < frames_maxim_ani)
     {
         player.set_posicion_mundo({player.get_posicion_mundo().x + distancia ,player.get_posicion_mundo().y});
         frames_dt++;
     }
 
-    if(frames_actual_ani > frames_maxim_ani)
-    {
-        player.set_columna(player.get_columna() - 1);
-    }
+    
+    if(frames_actual_ani > frames_maxim_ani) return;
+    
     
 };
 
@@ -342,12 +359,18 @@ void EstadoJugadorMOVERArriba::entrar(Jugador& player)
 
     distancia = (pos_final.y-pos_inicial.y)/frames_maxim_ani;
 };
-void EstadoJugadorMOVERArriba::salir(Jugador& player){};
+void EstadoJugadorMOVERArriba::salir(Jugador& player)
+{
+    if(player.get_posicion_mundo().y % 72 != 0)
+    {
+        int aux = player.get_posicion_mundo().y / 72;
+        player.set_posicion_mundo({player.get_posicion_mundo().x, aux*72});
+    }
+};
 void EstadoJugadorMOVERArriba::update(Jugador& player,double dt)
 {
     frames_actual_ani++;
-
-    if(Atlas::get().indiceCuadro(player.get_columna(), player.get_fila() -1) != 18) return;
+    if(Atlas::get().indiceCuadro(player.get_pos_matriz(pos_inicial.x), player.get_pos_matriz(pos_inicial.y)-1) != 18) return;
 
     player.get_sprite()->play_frame(5,frames_actual_ani%5);
     if(frames_dt < frames_maxim_ani)
@@ -356,10 +379,7 @@ void EstadoJugadorMOVERArriba::update(Jugador& player,double dt)
         frames_dt++;
     }
 
-    if(frames_actual_ani > frames_maxim_ani)
-    {
-        player.set_fila(player.get_fila() - 1);
-    }
+    if(frames_actual_ani > frames_maxim_ani) return;
     
 };
 
@@ -392,16 +412,21 @@ void EstadoJugadorMOVERAbajo::entrar(Jugador& player)
     frames_actual_ani = 0;
     pos_inicial = player.get_posicion_mundo();
     pos_final = {pos_inicial.x, pos_inicial.y + 72};
-
     distancia = (pos_final.y-pos_inicial.y)/frames_maxim_ani; 
 };
-void EstadoJugadorMOVERAbajo::salir(Jugador& player){};
+void EstadoJugadorMOVERAbajo::salir(Jugador& player)
+{
+    if(player.get_posicion_mundo().y % 72 != 0)
+    {
+        player.set_posicion_mundo({player.get_posicion_mundo().x , (player.get_posicion_mundo().y + (player.get_posicion_mundo().y % 72))});
+    }
+};
 void EstadoJugadorMOVERAbajo::update(Jugador& player,double dt)
 {
 
     frames_actual_ani++;
 
-    if(Atlas::get().indiceCuadro(player.get_columna(), player.get_fila() +1) != 18) return;
+    if(Atlas::get().indiceCuadro(player.get_pos_matriz(pos_inicial.x), player.get_pos_matriz(pos_inicial.y)+1) != 18) return;
 
     player.get_sprite()->play_frame(3,frames_actual_ani%5);
     if(frames_dt < frames_maxim_ani)
@@ -410,10 +435,7 @@ void EstadoJugadorMOVERAbajo::update(Jugador& player,double dt)
         frames_dt++;
     }
 
-    if(frames_actual_ani > frames_maxim_ani)
-    {
-        player.set_fila(player.get_fila() + 1);
-    }
+    if(frames_actual_ani > frames_maxim_ani) return;
 
 };
 
