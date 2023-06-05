@@ -120,7 +120,11 @@ bool SDLApp::on_init()
     
     Enemy * m = new Enemy("assets/sprites/enemigos/enemigo1.png",
                 //      hp , x , y, sW,sH , vW,vH ,color
+<<<<<<< HEAD
                         100,720,720,63,84,100,100,5,{255,0,255,255});
+=======
+                        100,720,720,48,48,100,100,5,{255,0,255,255});
+>>>>>>> 7cb435447799afe19b605a788b786242b6ae137a
     get().ensamble->cargar_texturas(m->get_sprite());
     enemigos.push_back(m);
     
