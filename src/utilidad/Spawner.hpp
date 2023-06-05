@@ -13,7 +13,6 @@ class Spawner
         void despawn(std::vector<Enemy*> *lista);
         void update(std::vector<Enemy*> *lista);
         void set_velocidad(int v);
-        bool actualizar_posicion(Jugador &j);
 
     private:
         std::vector<Enemy*> objetos;

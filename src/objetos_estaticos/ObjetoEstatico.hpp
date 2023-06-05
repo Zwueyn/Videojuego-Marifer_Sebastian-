@@ -21,3 +21,10 @@ class Plataformas : public ObjetoEstatico
         void update(double dt);
     
 };
+
+class Background : public ObjetoEstatico{
+    public:
+        virtual ~Background(){};
+        Background(std::string path_sprite,int x, int y, int w, int h);
+        void update(double dt);
+};

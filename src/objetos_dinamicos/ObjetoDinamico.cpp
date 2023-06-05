@@ -21,7 +21,6 @@ Jugador::Jugador(float vida, int x, int y , SDL_Color c)
     tiene_fisica = true;
     en_colision = false;
     estado_actual = new EstadoJugadorIDLE_B();
-    piso = {500,500}; // definir el piso en general
 };
 
 Jugador::Jugador(std::string path_sprite,float vida, int x, int y, int w, int h, int sw, int sh, SDL_Color c)
@@ -42,9 +41,7 @@ Jugador::Jugador(std::string path_sprite,float vida, int x, int y, int w, int h,
     tiene_fisica = true;
     en_colision = false;
     estado_actual = new EstadoJugadorIDLE_B();
-    //piso = {500,500}; // definir el piso en general
-    columna = 2;
-    fila = 2;
+    dmg = 15;
 
     sprite = new Sprite(path_sprite,posicion_mundo,w,h,sw,sh);
     tile = nullptr;
@@ -95,7 +92,7 @@ void Jugador::input_handle(KeyOyente& input,MouseOyente& mouse)
 
 
 //ENEMIGOS
-Enemy::Enemy(std::string path_sprite,float vida, int x, int y, int w, int h, int sw, int sh, SDL_Color c)
+Enemy::Enemy(std::string path_sprite,float vida, int x, int y, int w, int h, int sw, int sh, int atak, SDL_Color c)
 :ObjetoDinamico{}
 {
     hp = vida;
@@ -113,8 +110,7 @@ Enemy::Enemy(std::string path_sprite,float vida, int x, int y, int w, int h, int
     tiene_fisica = true;
     en_colision = false;
     estado_actual = new EstadoEnemyIDLE_B();
-    columna = x / 72;
-    fila = y / 72;
+    dmg = atak;
 
     sprite = new Sprite(path_sprite,posicion_mundo,w,h,sw,sh);
     tile = nullptr;
@@ -149,19 +145,14 @@ void Enemy::update(double dt)
 
 };
 
-void Enemy::input_handle(KeyOyente& input,MouseOyente& mouse)
+void Enemy::input_handle(KeyOyente& input)
 {
     if(!estado_actual) //nulo
         return;
-    FSMEnemy* estado = estado_actual->input_handle(input,mouse);
+    FSMEnemy* estado = estado_actual->input_handle(input);
     if(estado)
     {
         set_estado(estado);
     }
 };
 
-void Enemy::MoverDer(int distancia)
-{
-    posicion_mundo.x+=(distancia);
-    //posicion_camara.x+=(72*distancia);
-};

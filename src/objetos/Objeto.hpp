@@ -13,6 +13,7 @@ class Objeto
         Tile *tile;
         Figura* col_box;
         float hp;
+        int dmg;
         Coordenadas posicion_mundo;
         Coordenadas posicion_camara;
         bool tiene_fisica;
@@ -28,6 +29,8 @@ class Objeto
         void render(SDL_Renderer *r);
         Figura* get_avatar()const{return avatar;};
         Figura* get_colbox()const{return col_box;};
+        int get_dmg()const{return dmg;};
+        void set_dmg(int v){dmg=v;};
         float get_hp()const{return hp;};
         void set_hp(float v){hp=v;};
         Coordenadas get_posicion_mundo()const{return posicion_mundo;};

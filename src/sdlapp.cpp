@@ -80,11 +80,17 @@ bool SDLApp::on_init()
     // si se creo correcto lo agregamos al Pipeline
     get().ensamble = new Pipeline(*get().render);
 
+    background = new Background("assets/sprites/mundo/atlas/background.png",
+                          (int)(get().WIDTH), (int)(get().HEIGHT*1.5),
+                          5500, 5500);
+    get().ensamble->cargar_texturas(background->get_sprite());
+
+    objetos.push_back(background);
+
+
     //08 tiles
     Atlas::get().generar_mapa(get().render,2,0);
-    //05
-
-    
+        
 
     player = new Jugador("assets/sprites/heroe/player2.png",
                 //      hp , x , y, sW,sH , vW,vH ,color
@@ -93,9 +99,12 @@ bool SDLApp::on_init()
     printf("Se creo el player\n");
     plataformas = Atlas::get().get_objetos_fisicos();
 
+    // SLIME 64 X 71
+    // ROSE WORM 63 X 84
+
     
-    spawnEnemigos = new Spawner("assets/sprites/enemigos/player2.png"
-    ,100,0,0,48,48,100,100,{255,0,255,255},*get().ensamble);
+    spawnEnemigos = new Spawner("assets/sprites/enemigos/enemigo2.png"
+    ,100,0,0,64,68,100,100,{255,0,255,255},*get().ensamble);
     spawnEnemigos->set_velocidad(6);
 
     get().camara_principal = new Camara(0,0,get().WIDTH,get().HEIGHT,*get().render);
@@ -109,9 +118,9 @@ bool SDLApp::on_init()
     objetos.push_back(player);
 
     
-    Enemy * m = new Enemy("assets/sprites/enemigos/player2.png",
+    Enemy * m = new Enemy("assets/sprites/enemigos/enemigo1.png",
                 //      hp , x , y, sW,sH , vW,vH ,color
-                        100,720,720,48,48,100,100,{255,0,255,255});
+                        100,720,720,63,84,100,100,5,{255,0,255,255});
     get().ensamble->cargar_texturas(m->get_sprite());
     enemigos.push_back(m);
     
@@ -149,7 +158,7 @@ void SDLApp::on_evento(SDL_Event* evento)
 
 void SDLApp::on_fisicaupdate(double dt)
 {
-    //double tiempo_inicial = 0;
+    //InteraccionEntidades::get().set_enemigo();
     if(!ManejadorCamaras::get_camara().en_transicion)
     {
         if(player->get_posicion_mundo().x < ManejadorCamaras::get().get_camara().get_posicion_relativa().x - 216 ||
@@ -160,63 +169,87 @@ void SDLApp::on_fisicaupdate(double dt)
             ManejadorCamaras::get().set_estado(new EstadoCamaraTransicion());
         }
     }
+
+    spawnEnemigos->update(&enemigos);
+    InteraccionEntidades::get().set_entidad(player);
     if(!ManejadorCamaras::get_camara().en_transicion)
     {
-        if(!spawnEnemigos->actualizar_posicion(*player))
-        {  
-            exit(EXIT_FAILURE);
+        if(KeyOyente::get().estaPresionado(SDL_SCANCODE_A) || KeyOyente::get().estaPresionado(SDL_SCANCODE_D) ||
+        KeyOyente::get().estaPresionado(SDL_SCANCODE_W) || KeyOyente::get().estaPresionado(SDL_SCANCODE_S) || 
+        KeyOyente::get().estaPresionado(SDL_SCANCODE_SPACE))
+        {
+        int i=0;
+            for(auto &p:enemigos)
+            {
+                InteraccionEntidades::get().set_enemigo(p);
+                if(!InteraccionEntidades::get().adyacentes(player,p) && combate == false)
+                {
+                    p->input_handle(KeyOyente::get());
+                    p->update(dt);
+                }
+                
+            }
         }
-        //printf("\nPosicion mundo: ");
-        //DEBUGCOOR(player->get_posicion_mundo())
-        //printf("\nPosicion camara: ");
-        //DEBUGCOOR(player->get_posicion_camara())
-        spawnEnemigos->update(&enemigos);
+
     }
-    
+
     for(auto &p:objetos)
     {  
         p->update(dt);
         
     }
-    
-    if(KeyOyente::get().estaPresionado(SDL_SCANCODE_A) || KeyOyente::get().estaPresionado(SDL_SCANCODE_D) ||
-     KeyOyente::get().estaPresionado(SDL_SCANCODE_W) || KeyOyente::get().estaPresionado(SDL_SCANCODE_S))
-    {
-       int i=0;
-        for(auto &p:enemigos)
-        {
-            i++;
-            p->input_handle(KeyOyente::get(),MouseOyente::get());
-            p->update(dt);
-            
-            //printf("Enemigo [%d]",i);
-            //printf("\nPosicion Enemigo: ");
-            //DEBUGCOOR(p->get_posicion_mundo())
-            //printf("Posicion Camara: ");
-            //DEBUGCOOR(p->get_posicion_camara())
-            //printf("\n");
-        }
-    }
 
     for(auto &p:enemigos)
     {
         p->update(dt);
-        // p->cambio = false;
+        if(InteraccionEntidades::get().adyacentes(player,p) && combate == false)
+        {
+            combate = true;
+            InteraccionEntidades::get().set_target(p);
+        }
+    }
+
+    if(!ManejadorCamaras::get_camara().en_transicion)
+    {
+        if(KeyOyente::get().estaPresionado(SDL_SCANCODE_F))
+        {
+            for(auto &p:enemigos)
+            {
+                if(combate == true)
+                {
+                    InteraccionEntidades::get().combate();
+                    if(p->get_hp()<=0)
+                    {
+                        player->set_hp(player->get_hp()+ 15);
+                        spawnEnemigos->despawn(&enemigos);
+                        combate = false;
+                    }
+                }
+                
+            }
+           
+        }
     }
 
     
+    for(auto &p:enemigos)
+    {
+        InteraccionEntidades::get().set_enemigo(p);
+        if(!InteraccionEntidades::get().adyacentes(player,p) && combate == false)
+        {
+            player->input_handle(KeyOyente::get(),MouseOyente::get());
+        }
+                
+    }
     
-    
-    player->input_handle(KeyOyente::get(),MouseOyente::get());
 
-    //player->update(dt);
 
     
     /*CAMARA al final para actualizar la proyeción de los objetos*/
     ManejadorCamaras::get().input_handle(KeyOyente::get(),MouseOyente::get());
     ManejadorCamaras::get().update(objetos);
     ManejadorCamaras::get().update(enemigos);
-    //printf("Update Fisica\n");
+    InteraccionEntidades::get().set_entidad(player);
 
     
     
@@ -229,41 +262,29 @@ void SDLApp::on_frameupdate(double dt)
 
     //Renderizar todo a través de la camara
     
-    ManejadorCamaras::get().renderizar(objetos);
-    ManejadorCamaras::get().renderizar(enemigos);
-
-
-    
-
-
-    //posicion del mouse
-    /*
-    int mx = MouseOyente::get().getX();
-    int my = MouseOyente::get().getY();
-    std::string pm = "mouse("+std::to_string(mx)+","+std::to_string(my)+")";
-    Coordenadas cp = ManejadorCamaras::get().get_camara().get_posicion_centro();
-    Coordenadas mcp = ManejadorCamaras::get().get_camara().get_posicion_mundo();
-    std::string cm = "camara("+std::to_string(cp.x)+","+std::to_string(cp.y)+")";
-    std::string cmm = "camara("+std::to_string(mcp.x)+","+std::to_string(mcp.y)+")";
-    */
-    //RenderTexto::get().render_texto(get().render,815,630,pm,100,30,SDL_Color{0,0,0,255});
-    //RenderTexto::get().render_texto(get().render,815,580,cmm,100,30,SDL_Color{0,0,0,255});
-    //RenderTexto::get().render_texto(get().render,815,530,cm,100,30,SDL_Color{0,0,0,255});
-    //fps
-
-    RenderTexto::get().render_texto(get().render,get().WIDTH-200,30,
-        "Turno: "+std::to_string(turn),
+    if(player->get_hp()>0)
+    {
+        ManejadorCamaras::get().renderizar(objetos);
+        ManejadorCamaras::get().renderizar(enemigos);
+        RenderTexto::get().render_texto(get().render,50,30,
+        "HP: "+std::to_string((int)player->get_hp())+"/"+std::to_string(100),
         100,30,SDL_Color{0,135,62});
-    //RenderTexto::get().render_texto(get().render,get().WIDTH-200,30,
-     //   std::to_string((int)(dt/get().msfrecuencia))+" fps",
-      //  100,30,SDL_Color{0,135,62});
+    } else
+    {
+        RenderTexto::get().render_texto(get().render,(get().WIDTH/2)-(200/2),(get().HEIGHT/2)-(100/2),
+        "GAME OVER",
+        200,100,SDL_Color{0,0,0});
+    }
     
-    //RenderTexto::get().render_texto(get().render,50,630,player->get_strEstado(),120,30,SDL_Color{0,0,0,255});
 
-    //Actualizar
+
+    
+    
+    
+
     SDL_RenderPresent(get().render);
 
-    //resetear color del frame
+
     SDL_SetRenderDrawColor(
         get().render,
         get().bg_color.r,

@@ -32,7 +32,7 @@ void Spawner::spawn(std::vector<Enemy*> *lista)
     
     //random
     srand((unsigned) time(NULL));
-    int sx, sy;
+    int sx, sy, atk=2;
     
     do
     {
@@ -42,11 +42,9 @@ void Spawner::spawn(std::vector<Enemy*> *lista)
         sy = y + (posY*72);
     } while (Atlas::get().indiceCuadro(sx/72 , sy/72) != 18);
     
-    printf("\nPosicion matris X: [%d]", sx/72);
-    printf("\nPosicion matris Y: [%d]\n", sy/72);
 
     Enemy * nuevo = new Enemy(
-    sprite_path,v,sx,sy,w,h,sw,sh,colordebug);
+    sprite_path,v,sx,sy,w,h,sw,sh,atk,colordebug);
     pipeline->cargar_texturas(nuevo->get_sprite());
     lista->push_back(nuevo);
     objetos_activos++;
@@ -60,22 +58,26 @@ void Spawner::set_velocidad(int v)
 
 void Spawner::despawn(std::vector<Enemy*> *lista)
 {
-    int id = lista->size()-objetos_activos;
-    delete lista->at(id);
+    int i=0;
+    for(auto &p : *lista)
+    {
+        if(p->get_vida()<=0)
+        {
+            delete lista->at(i);
+            lista->erase((lista->begin()+i));
+            i++;
+        }
+        i++;
+    }
+
     objetos_activos--;
-    lista->erase(std::next(lista->begin()+id));
 };
+
 
 void Spawner::update(std::vector<Enemy*> *lista)
 {
     double dt =  Tiempo::get_tiempo() - init_tiempo;
 
-    /*
-    for(auto &p: *lista)
-    {
-        p->get_sprite()
-    }
-    */
     
     if((int)dt!=0 && ((int)dt)%delay == 0 && check==false && objetos_activos<5)
     {
@@ -83,34 +85,10 @@ void Spawner::update(std::vector<Enemy*> *lista)
         spawn(lista);
         past_tiempo=dt;
         check=true;
-        DEBUGPRINT(std::to_string(dt)+" SPAWN "+std::to_string(objetos_activos))
-        DEBUGCOOR(lista->at(lista->size()-1)->get_posicion_mundo());
-    }
-
-    if((int)dt!=0 && (int)dt%(delay*2) == 0 && !check)
-    {
-        //DEBUGPRINT("DESPAWN")
-        //despawn(lista);
-        //check=true;
     }
 
     if((int)dt>past_tiempo)
     {    
         check=false;
     }
-};
-
-bool Spawner::actualizar_posicion(Jugador &j)
-{
-    if(jugador==nullptr || jugador!=&j)
-    {
-        jugador=&j;
-    }
-    if(!jugador)
-    {
-        return false;
-    }
-    //x = j.get_posicion_mundo().x;
-    //y = j.get_posicion_mundo().y;
-    return true;
 };

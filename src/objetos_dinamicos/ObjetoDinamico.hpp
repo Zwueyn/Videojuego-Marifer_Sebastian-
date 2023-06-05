@@ -37,22 +37,16 @@ class Jugador : public ObjetoDinamico
         void update(double dt);
         void input_handle(KeyOyente& input,MouseOyente& mouse);
         std::string get_strEstado();
-        Coordenadas get_piso()const{return piso;};
-        void set_piso(Coordenadas p){piso = p;};
 
         void set_estado(void* estado);
         void* get_estado();
 
-        void set_columna(int c){columna=c;};
-        void set_fila(int f){fila=f;};
-        int get_columna()const{return columna;};
-        int get_fila()const{return fila;};
+        int get_columna()const{return posicion_mundo.x/72;};
+        int get_fila()const{return posicion_mundo.y/72;};
+        int get_pos_matriz(int posicion)const{return posicion/72;};
+
     private:
         FSMJugador* estado_actual;
-        //typedef Objeto super;
-        Coordenadas piso;
-        int columna;
-        int fila;
         
 };
 
@@ -61,29 +55,22 @@ class Enemy : public ObjetoDinamico
     public:
         virtual ~Enemy(){};
         Enemy(float vida, int x, int y,SDL_Color c );
-        Enemy(std::string path_sprite,float vida, int x, int y, int w, int h,int sw,int sh, SDL_Color c );
+        Enemy(std::string path_sprite,float vida, int x, int y, int w, int h,int sw,int sh, int atak, SDL_Color c );
         void update(double dt);
-        void input_handle(KeyOyente& input,MouseOyente& mouse);
+        void input_handle(KeyOyente& input);
         std::string get_strEstado();
-        Coordenadas get_piso()const{return piso;};
-        void set_piso(Coordenadas p){piso = p;};
 
         void set_estado(void* estado);
         void* get_estado();
 
-        void set_columna(int c){columna=c;};
-        void set_fila(int f){fila=f;};
-        int get_columna()const{return columna;};
-        int get_fila()const{return fila;};
-        void MoverDer(int distancia);
+        int get_columna()const{return posicion_mundo.x/72;};
+        int get_fila()const{return posicion_mundo.y/72;};
+        int get_pos_matriz(int posicion)const{return posicion/72;};
+        int get_vida()const{return hp;};
 
-        bool cambio{false};
     private:
         FSMEnemy* estado_actual;
         double delay;
         double init_tiempo;
-        Coordenadas piso;
-        int columna;
-        int fila;
         
 };
