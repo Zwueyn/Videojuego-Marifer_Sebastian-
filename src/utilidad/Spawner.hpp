@@ -7,7 +7,7 @@
 class Spawner
 {
     public:
-        Spawner(std::string sprite_path, float vida, int x, int y, int w, int h, int sw, int sh, SDL_Color c, Pipeline &p); //Constructor igual que enemy
+        Spawner(int x, int y, int sw, int sh, SDL_Color c, Pipeline &p); //Constructor igual que enemy
 
         void spawn(std::vector<Enemy*> *lista);
         void despawn(std::vector<Enemy*> *lista);
@@ -25,7 +25,7 @@ class Spawner
         int h; //alto del sprite
         int sw; //ancho mostrar sprite
         int sh; //alto mostrar sprite
-        float v;
+        int v; //vida del sprite
         int objetos_activos;
         int delay;
         double init_tiempo;

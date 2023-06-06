@@ -51,6 +51,7 @@ class SDLApp
 
         Background *background;
 
+
         //08 tiles
         Atlas *mapa;
 
@@ -59,11 +60,14 @@ class SDLApp
         Spawner *spawnEnemigos;
 
         std::vector<Enemy*> enemigos;
+        Enemy* objetivo;
 
         //Turnos
         int turn = 0;
 
+        bool adyacente = false;
         bool combate = false;
+        bool victoria = false;
     
     public:
         SDL_Color bg_color;

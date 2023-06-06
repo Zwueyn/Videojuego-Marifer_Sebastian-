@@ -252,7 +252,8 @@ void EstadoJugadorMOVERDerecha::update(Jugador& player,double dt)
     frames_actual_ani++;
 
 
-    if(Atlas::get().indiceCuadro(player.get_pos_matriz(pos_inicial.x) +1, player.get_pos_matriz(pos_inicial.y)) != 18) return;
+    if(Atlas::get().indiceCuadro(player.get_pos_matriz(pos_inicial.x) +1, player.get_pos_matriz(pos_inicial.y)) != 18 && 
+    Atlas::get().indiceCuadro(player.get_pos_matriz(pos_inicial.x) +1, player.get_pos_matriz(pos_inicial.y)) != 51) return;
 
 
     player.get_sprite()->play_frame(4,frames_actual_ani%5);
@@ -312,7 +313,8 @@ void EstadoJugadorMOVERIzquierda::update(Jugador& player,double dt)
     frames_actual_ani++;
 
 
-    if(Atlas::get().indiceCuadro(player.get_pos_matriz(pos_inicial.x) -1, player.get_pos_matriz(pos_inicial.y)) != 18) return;
+    if(Atlas::get().indiceCuadro(player.get_pos_matriz(pos_inicial.x) -1, player.get_pos_matriz(pos_inicial.y)) != 18 && 
+    Atlas::get().indiceCuadro(player.get_pos_matriz(pos_inicial.x) -1, player.get_pos_matriz(pos_inicial.y)) != 51) return;
 
     player.get_sprite()->play_frame(10,frames_actual_ani%5);
 
@@ -370,7 +372,8 @@ void EstadoJugadorMOVERArriba::salir(Jugador& player)
 void EstadoJugadorMOVERArriba::update(Jugador& player,double dt)
 {
     frames_actual_ani++;
-    if(Atlas::get().indiceCuadro(player.get_pos_matriz(pos_inicial.x), player.get_pos_matriz(pos_inicial.y)-1) != 18) return;
+    if(Atlas::get().indiceCuadro(player.get_pos_matriz(pos_inicial.x), player.get_pos_matriz(pos_inicial.y)-1) != 18 && 
+    Atlas::get().indiceCuadro(player.get_pos_matriz(pos_inicial.x), player.get_pos_matriz(pos_inicial.y)-1) != 51) return;
 
     player.get_sprite()->play_frame(5,frames_actual_ani%5);
     if(frames_dt < frames_maxim_ani)
@@ -426,7 +429,9 @@ void EstadoJugadorMOVERAbajo::update(Jugador& player,double dt)
 
     frames_actual_ani++;
 
-    if(Atlas::get().indiceCuadro(player.get_pos_matriz(pos_inicial.x), player.get_pos_matriz(pos_inicial.y)+1) != 18) return;
+    if(Atlas::get().indiceCuadro(player.get_pos_matriz(pos_inicial.x), player.get_pos_matriz(pos_inicial.y)+1) != 18 && 
+    Atlas::get().indiceCuadro(player.get_pos_matriz(pos_inicial.x), player.get_pos_matriz(pos_inicial.y)+1) != 51) return;
+
 
     player.get_sprite()->play_frame(3,frames_actual_ani%5);
     if(frames_dt < frames_maxim_ani)

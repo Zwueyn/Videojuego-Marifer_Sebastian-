@@ -91,11 +91,7 @@ void EstadoEnemyIDLE_D::salir(Enemy& enemy)
 };
 void EstadoEnemyIDLE_D::update(Enemy& enemy,double dt)
 {
-<<<<<<< HEAD
     enemy.get_sprite()->play_frame(2,frames_actual_ani%frames_maxim_ani);
-=======
->>>>>>> 7cb435447799afe19b605a788b786242b6ae137a
-    enemy.get_sprite()->play_frame(1,frames_actual_ani%frames_maxim_ani);
     if(frames_dt >= 5)
     {
         frames_dt = 0;
@@ -424,10 +420,6 @@ void EstadoEnemyMOVERDerecha::entrar(Enemy& enemy)
 
 void EstadoEnemyMOVERDerecha::salir(Enemy& enemy)
 {
-    if(enemy.get_posicion_mundo().x % 72 != 0)
-    {
-        enemy.set_posicion_mundo({enemy.get_posicion_mundo().x + ((enemy.get_posicion_mundo().x % 72)), enemy.get_posicion_mundo().y});
-    }
 };
 
 void EstadoEnemyMOVERDerecha::update(Enemy& enemy,double dt)
@@ -441,19 +433,9 @@ void EstadoEnemyMOVERDerecha::update(Enemy& enemy,double dt)
         return;
     }
 
-
-    if(enemy.get_columna() == (InteraccionEntidades::get_entidad()->get_posicion_mundo().x/72))
-    {
-        enemy.set_estado(new EstadoEnemyIDLE_D());
-        return;
-    }
     
 
-<<<<<<< HEAD
     enemy.get_sprite()->play_frame(1,frames_actual_ani%frames_maxim_ani);
-=======
->>>>>>> 7cb435447799afe19b605a788b786242b6ae137a
-    enemy.get_sprite()->play_frame(4,frames_actual_ani%5);
     if(frames_dt< frames_maxim_ani)
     {
         enemy.set_posicion_mundo({enemy.get_posicion_mundo().x + distancia ,enemy.get_posicion_mundo().y});
@@ -500,14 +482,6 @@ void EstadoEnemyMOVERIzquierda::entrar(Enemy& enemy)
 };
 void EstadoEnemyMOVERIzquierda::salir(Enemy& enemy)
 {
-    
-    if(enemy.get_posicion_mundo().x % 72 != 0)
-    {
-        int aux = enemy.get_posicion_mundo().x / 72;
-        enemy.set_posicion_mundo({72*aux, enemy.get_posicion_mundo().y});
-    }
-    
-
 };
 void EstadoEnemyMOVERIzquierda::update(Enemy& enemy,double dt)
 {
@@ -518,16 +492,6 @@ void EstadoEnemyMOVERIzquierda::update(Enemy& enemy,double dt)
         enemy.set_estado(new EstadoEnemyIDLE_I());
         return;
     }
-    
-    if(enemy.get_columna() == (InteraccionEntidades::get_entidad()->get_posicion_mundo().x/72))
-    {
-        enemy.set_estado(new EstadoEnemyIDLE_I());
-        return;
-    } 
-<<<<<<< HEAD
-=======
-
->>>>>>> 7cb435447799afe19b605a788b786242b6ae137a
 
     enemy.get_sprite()->play_frame(0,frames_actual_ani%frames_maxim_ani);
     if(frames_dt < frames_maxim_ani)
@@ -577,11 +541,7 @@ void EstadoEnemyMOVERArriba::entrar(Enemy& enemy)
 };
 void EstadoEnemyMOVERArriba::salir(Enemy& enemy)
 {
-    if(enemy.get_posicion_mundo().y % 72 != 0)
-    {
-        int aux = enemy.get_posicion_mundo().y / 72;
-        enemy.set_posicion_mundo({enemy.get_posicion_mundo().x, aux*72});
-    }
+
 
 };
 void EstadoEnemyMOVERArriba::update(Enemy& enemy,double dt)
@@ -593,13 +553,7 @@ void EstadoEnemyMOVERArriba::update(Enemy& enemy,double dt)
         enemy.set_estado(new EstadoEnemyIDLE_A());
         return;
     }
-    
-    if(enemy.get_fila() == (InteraccionEntidades::get_entidad()->get_posicion_mundo().y/72))
-    {
-        enemy.set_estado(new EstadoEnemyIDLE_A());
-        return;
-    }
-    
+
 
     enemy.get_sprite()->play_frame(3,frames_actual_ani%frames_maxim_ani);
     if(frames_dt < frames_maxim_ani)
@@ -649,10 +603,7 @@ void EstadoEnemyMOVERAbajo::entrar(Enemy& enemy)
 };
 void EstadoEnemyMOVERAbajo::salir(Enemy& enemy)
 {
-    if(enemy.get_posicion_mundo().y % 72 != 0)
-    {
-        enemy.set_posicion_mundo({enemy.get_posicion_mundo().x , (enemy.get_posicion_mundo().y + (enemy.get_posicion_mundo().y % 72))});
-    }
+
 };
 void EstadoEnemyMOVERAbajo::update(Enemy& enemy,double dt)
 {
@@ -665,16 +616,7 @@ void EstadoEnemyMOVERAbajo::update(Enemy& enemy,double dt)
         return;
     }
 
-    if(enemy.get_fila() == (InteraccionEntidades::get_entidad()->get_posicion_mundo().y/72))
-    {
-        enemy.set_estado(new EstadoEnemyIDLE_B());
-        return;
-    }
-<<<<<<< HEAD
-=======
-    
->>>>>>> 7cb435447799afe19b605a788b786242b6ae137a
-    
+
     enemy.get_sprite()->play_frame(0,frames_actual_ani%frames_maxim_ani);
     if(frames_dt < frames_maxim_ani)
     {
@@ -687,8 +629,5 @@ void EstadoEnemyMOVERAbajo::update(Enemy& enemy,double dt)
         enemy.set_estado(new EstadoEnemyIDLE_B());
 
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> 7cb435447799afe19b605a788b786242b6ae137a
 };

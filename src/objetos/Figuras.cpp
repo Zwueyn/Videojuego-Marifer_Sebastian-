@@ -15,14 +15,7 @@ Rectangulo::Rectangulo(int x, int y, int w, int h,SDL_Color color)
 
 void Rectangulo::generar_vertices()
 {
-    //pivote [top lef] move to right
-    /*   
-    vertices.push_back({posicion.x,posicion.y});
-    vertices.push_back({posicion.x+width,posicion.y});
-    vertices.push_back({posicion.x+width,posicion.y+height});
-    vertices.push_back({posicion.x,posicion.y+height});
-    */
-    //pivote [centro] A--D--C--B--A
+
     vertices.push_back({posicion.x-width/2,posicion.y-height/2}); //a
     vertices.push_back({posicion.x-width/2,posicion.y+height/2}); //d
     vertices.push_back({posicion.x+width/2,posicion.y+height/2}); //c
@@ -95,18 +88,6 @@ void Circulo::generar_vertices()
         int y = posicion.y+SDL_sin(angulo)*radio;
         vertices.push_back({x,y});
     }
-    
-/*
-    int rr= radio*radio;
-    for(int x = -radio;x<=radio;++x)
-    {
-        int hh = (int)(SDL_sqrt(rr-x*x)+0);
-        int cyy = x+posicion.y;
-        vertices.push_back({posicion.x-hh,cyy});
-        vertices.push_back({posicion.x+hh,cyy});
-    }
-*/
-    //printf("Se creo circulo con %ld vertices\n",vertices.size());
 };
 
 void Circulo::update_vertices()

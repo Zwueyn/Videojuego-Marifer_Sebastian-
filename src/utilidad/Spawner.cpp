@@ -7,11 +7,9 @@
 #include <iostream>
 #include <cstdlib>
 
-Spawner::Spawner(std::string sprite_path, float v, int x, int y, int w, int h, int sw, int sh, SDL_Color c, Pipeline &p)
+Spawner::Spawner(int x, int y,int sw, int sh, SDL_Color c, Pipeline &p)
 {
-    this->sprite_path = sprite_path;
     colordebug=c;
-    this->v=v;
     this->x=x; //pos x
     this->y=y; //pos y
     this->w=w; //ancho del sprite
@@ -32,7 +30,8 @@ void Spawner::spawn(std::vector<Enemy*> *lista)
     
     //random
     srand((unsigned) time(NULL));
-    int sx, sy, atk=2;
+    int sx, sy, atk;
+    int enemigo = rand()%25;
     
     do
     {
@@ -42,7 +41,22 @@ void Spawner::spawn(std::vector<Enemy*> *lista)
         sy = y + (posY*72);
     } while (Atlas::get().indiceCuadro(sx/72 , sy/72) != 18);
     
-
+    if(enemigo != 13)
+    {
+        sprite_path = "assets/sprites/enemigos/enemigo2.png";
+        atk = 3;
+        v = 90;
+        w = 64;
+        h = 68;
+    }
+    else
+    {
+        sprite_path = "assets/sprites/enemigos/enemigo1.png";
+        atk = 8;
+        v = 120;
+        w = 63;
+        h = 84;
+    }
     Enemy * nuevo = new Enemy(
     sprite_path,v,sx,sy,w,h,sw,sh,atk,colordebug);
     pipeline->cargar_texturas(nuevo->get_sprite());
